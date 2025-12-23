@@ -11,6 +11,9 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 
 if __name__ == '__main__':
+    device = torch.device('cuda:0')
+    print(torch.cuda.is_available())
+
     raw = pd.read_csv('../dataset/心脏病数据集/heart_2020_raw.csv')
     raw.drop(['GenHealth'], axis=1, inplace=True)
     print(raw.isnull().sum())
@@ -60,11 +63,11 @@ if __name__ == '__main__':
     y_train = label_encoder.fit_transform(y_train)
     y_test = label_encoder.transform(y_test)
 
-    X_train = torch.tensor(X_train, dtype=torch.float32)
-    X_test = torch.tensor(X_test, dtype=torch.float32)
+    X_train = torch.tensor(X_train, dtype=torch.float32).to(device)
+    X_test = torch.tensor(X_test, dtype=torch.float32).to(device)
 
-    y_train = torch.tensor(y_train, dtype=torch.long)
-    y_test = torch.tensor(y_test, dtype=torch.long)
+    y_train = torch.tensor(y_train, dtype=torch.long).to(device)
+    y_test = torch.tensor(y_test, dtype=torch.long).to(device)
 
     print(X_train.shape)
 
@@ -85,6 +88,8 @@ if __name__ == '__main__':
     model.add_module('relu3', nn.ReLU())
 
     model.add_module('output', nn.Linear(16, num_classes))
+
+    model = model.to(device)
 
     # optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
