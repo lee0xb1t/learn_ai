@@ -106,4 +106,8 @@ A project to learn AI
 
 ## 全连接神经网络
 
-[fcnn.py](dl/fully_connected/heart_disease/train.py)
+[mlp](dl/mlp/heart_disease/train.py)
+
+## LeNet
+
+[lenet](dl/lenet/train.py)

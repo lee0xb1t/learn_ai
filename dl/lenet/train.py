@@ -141,10 +141,10 @@ class LeNetTrainer:
         return _eval_probs, _eval_pred
 
     def save_model(self):
-        torch.save(self.model, './data/FashionMNIST/model.pth')
+        torch.save(self.model, 'data/FashionMNIST/model.pt')
 
     def load_model(self):
-        self.model = torch.load('./data/FashionMNIST/model.pth', weights_only=False)
+        self.model = torch.load('data/FashionMNIST/model.pt', weights_only=False)
         self.model.to(self.device)
 
     def set_train_mode(self):
