@@ -72,7 +72,7 @@ if __name__ == '__main__':
     batch_size = 32
     learning_rate = 0.001
     epochs = 200
-    num_classes = 2
+    num_classes = 1
 
     model = nn.Sequential()
     model.add_module('dense1', nn.Linear(32, 64))
@@ -88,7 +88,7 @@ if __name__ == '__main__':
 
     # optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
-    loss_func = nn.CrossEntropyLoss()
+    loss_func = nn.BCEWithLogitsLoss()
 
     model.train()
     for epoch in range(epochs):
@@ -97,7 +97,8 @@ if __name__ == '__main__':
         # 前向传播
         logits = model(X_train)
         # 计算损失
-        loss = loss_func(logits, y_train)
+        y_train_reshaped = y_train.view(-1, 1).float()
+        loss = loss_func(logits, y_train_reshaped)
         # 反向传播
         loss.backward()
         # 更新参数
@@ -109,9 +110,12 @@ if __name__ == '__main__':
     model.eval()
     with torch.no_grad():
         val_logits = model(X_test)
-        val_loss = loss_func(val_logits, y_test)
-        val_acc = (val_logits.argmax(dim=1) == y_test).float().mean()
-        print(f"Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}")
+        y_test_reshaped = y_test.view(-1, 1).float()
+        val_loss = loss_func(val_logits, y_test_reshaped)
+        val_prob = torch.sigmoid(val_logits)
+        val_pred = (val_prob > 0.5).float()
+        accuracy = (val_pred == y_test_reshaped).float().mean()
+        print(f"Val Loss: {val_loss:.4f}, Val Acc: {accuracy:.4f}")
 
     torch.save(model, '../dataset/心脏病数据集/heart_2020.pt')
 
