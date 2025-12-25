@@ -9,9 +9,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 from PIL import Image
 
-from dl.lenet.model import LeNet
-from dl.lenet.train import LeNetTrainer
-from dl.lenet.val import get_validation_data
+from model import LeNet
+from train import LeNetTrainer
+from val import get_validation_data
 
 
 if __name__ == '__main__':

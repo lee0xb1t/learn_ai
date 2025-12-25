@@ -7,7 +7,7 @@ import torch.optim as optim
 import torch.nn as nn
 import numpy as np
 
-from dl.lenet.train import LeNetTrainer, get_train_data
+from train import LeNetTrainer, get_train_data
 
 
 def get_validation_data():

@@ -7,7 +7,7 @@ import torch.optim as optim
 import torch.nn as nn
 import numpy as np
 
-from dl.lenet.model import LeNet
+from model import LeNet
 
 
 def get_train_data():
